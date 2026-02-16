@@ -5,7 +5,8 @@ import Preview from './components/Preview'
 
 export default function App() {
   const [isPaid, setIsPaid] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('ats_paid')) === true } catch(e){ return false }
+    // Use sessionStorage for demo so 'paid' doesn't persist across browser sessions by default
+    try { return JSON.parse(sessionStorage.getItem('ats_paid')) === true } catch(e){ return false }
   });
   const [pendingSession, setPendingSession] = useState(null);
 
@@ -71,7 +72,7 @@ export default function App() {
         const d = e.data || {};
         if (d.type === 'mock-payment' && d.sessionId && pendingSession && d.sessionId === pendingSession.sessionId) {
           setIsPaid(true);
-          localStorage.setItem('ats_paid', 'true');
+          sessionStorage.setItem('ats_paid', 'true');
           setPendingSession(null);
           alert('Payment verified (mock). Download/Print unlocked.');
         }
@@ -122,7 +123,7 @@ export default function App() {
                         const sbody = await status.json();
                         if (sbody.paid) {
                           setIsPaid(true);
-                          localStorage.setItem('ats_paid', 'true');
+                          sessionStorage.setItem('ats_paid', 'true');
                           setPendingSession(null);
                           alert('Payment verified. Download/Print unlocked.');
                         } else {
@@ -138,7 +139,14 @@ export default function App() {
                 )}
               </>
             ) : (
-              <span style={{ fontWeight: 700, color: '#2d7a3d' }}>Paid</span>
+              <div style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>
+                <span style={{ fontWeight: 700, color: '#2d7a3d' }}>Paid</span>
+                <button type="button" style={{ fontSize: 12, padding: '4px 8px', borderRadius: 6 }} onClick={() => {
+                  // allow easy demo reset
+                  sessionStorage.removeItem('ats_paid');
+                  setIsPaid(false);
+                }}>Reset</button>
+              </div>
             )}
 
             <button type="button" className="ats-print-btn" onClick={() => isPaid ? window.print() : alert('Please purchase to unlock printing/downloading.')}
