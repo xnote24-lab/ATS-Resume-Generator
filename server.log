@@ -1,0 +1,5 @@
+
+> ats-resume-generate@1.0.0 start-server
+> node server/index.js
+
+Server running on http://localhost:4242

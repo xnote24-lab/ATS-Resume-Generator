@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #0f0f0f; --ink-muted: #4a4a4a; --ink-faint: #9a9a9a;
+  --surface: #ffffff; --border: #e8e4de; --accent: #c8522a;
+  --accent-light: #f5ede8; --form-bg: #ede9e3; --tag-bg: #1a1a2e;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --ease: 0.15s ease;
+}
+
+html, body { font-family: var(--font-body); background: var(--form-bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+.ats-shell { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+.ats-form-panel { background: var(--form-bg); padding: 2rem 2.5rem; overflow-y: auto; height: 100vh; position: sticky; top: 0; }
+.ats-form-header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--ink); }
+.ats-form-header h1 { font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+.ats-form-header h1 span { color: var(--accent); }
+.ats-form-header p { font-size: 0.72rem; color: var(--ink-muted); margin-top: 0.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; }
+
+.ats-section { margin-bottom: 1.8rem; }
+.ats-section-label { display: inline-flex; align-items: center; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; color: #fff; background: var(--tag-bg); padding: 0.28rem 0.7rem; border-radius: 2px; margin-bottom: 0.85rem; }
+.ats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+.ats-field { display: flex; flex-direction: column; gap: 0.28rem; margin-bottom: 0.65rem; }
+.ats-field.full { grid-column: 1 / -1; }
+.ats-field label { font-size: 0.68rem; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.07em; }
+.ats-field input, .ats-field textarea { font-family: var(--font-body); font-size: 0.86rem; padding: 0.58rem 0.72rem; border: 1.5px solid var(--border); border-radius: 3px; background: var(--surface); color: var(--ink); outline: none; width: 100%; transition: border-color var(--ease), box-shadow var(--ease); }
+.ats-field input:focus, .ats-field textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,82,42,0.1); }
+.ats-field textarea { resize: vertical; min-height: 78px; line-height: 1.5; }
+
+.ats-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 5px; padding: 0.95rem; margin-bottom: 0.7rem; position: relative; transition: border-color var(--ease); }
+.ats-card:hover { border-color: var(--accent); }
+.ats-card-remove { position: absolute; top: 0.45rem; right: 0.45rem; background: none; border: none; cursor: pointer; color: var(--ink-faint); font-size: 1.05rem; padding: 0.1rem 0.3rem; border-radius: 2px; transition: color var(--ease), background var(--ease); }
+.ats-card-remove:hover { color: var(--accent); background: var(--accent-light); }
+
+.ats-check-row { display: flex; align-items: center; gap: 0.45rem; grid-column: 1 / -1; margin-top: -0.3rem; }
+.ats-check-row input[type=checkbox] { width: auto; cursor: pointer; }
+.ats-check-row label { font-size: 0.82rem; font-weight: 500; cursor: pointer; color: var(--ink-muted); text-transform: none; letter-spacing: 0; }
+
+.ats-add-btn { display: flex; align-items: center; justify-content: center; gap: 0.4rem; font-family: var(--font-body); font-size: 0.78rem; font-weight: 700; color: var(--accent); background: var(--accent-light); border: 1.5px dashed var(--accent); border-radius: 3px; padding: 0.48rem 1rem; cursor: pointer; width: 100%; transition: background var(--ease); }
+.ats-add-btn:hover { background: #eed5cc; }
+
+.ats-btn-primary { font-family: var(--font-body); font-size: 0.84rem; font-weight: 700; color: #fff; background: var(--ink); border: none; border-radius: 3px; padding: 0.72rem 1.4rem; cursor: pointer; width: 100%; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.4rem; transition: background var(--ease); }
+.ats-btn-primary:hover { background: var(--accent); }
+
+.ats-skills-box { display: flex; gap: 0.45rem; flex-wrap: wrap; background: var(--surface); border: 1.5px solid var(--border); border-radius: 3px; padding: 0.45rem; min-height: 46px; cursor: text; transition: border-color var(--ease), box-shadow var(--ease); }
+.ats-skills-box:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,82,42,0.1); }
+.ats-skill-chip { display: inline-flex; align-items: center; gap: 0.28rem; background: var(--tag-bg); color: #fff; font-size: 0.73rem; font-weight: 500; padding: 0.18rem 0.5rem; border-radius: 2px; }
+.ats-skill-chip button { background: none; border: none; color: rgba(255,255,255,0.55); cursor: pointer; font-size: 0.9rem; line-height: 1; padding: 0; transition: color var(--ease); }
+.ats-skill-chip button:hover { color: #ffaaaa; }
+.ats-skills-box input { border: none; outline: none; flex: 1; min-width: 90px; font-family: var(--font-body); font-size: 0.84rem; padding: 0.12rem 0.25rem; background: transparent; }
+
+.ats-preview-panel { background: #cdc8c1; padding: 1.8rem; overflow-y: auto; height: 100vh; display: flex; flex-direction: column; align-items: center; position: sticky; top: 0; }
+.ats-toolbar { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 660px; margin-bottom: 0.9rem; flex-wrap: wrap; gap: 0.5rem; }
+.ats-toolbar-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #5a5550; }
+.ats-toolbar-right { display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; }
+.ats-badge { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.66rem; font-weight: 700; color: #2d7a3d; background: #e6f4ea; border: 1px solid #b2debb; padding: 0.26rem 0.62rem; border-radius: 30px; text-transform: uppercase; letter-spacing: 0.07em; }
+.ats-badge::before { content: "✓"; }
+.ats-print-btn { display: flex; align-items: center; gap: 0.35rem; font-family: var(--font-body); font-size: 0.72rem; font-weight: 700; color: var(--ink); background: #fff; border: 1.5px solid #ccc; border-radius: 3px; padding: 0.4rem 0.85rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.07em; transition: background var(--ease), color var(--ease), border-color var(--ease); }
+.ats-print-btn:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+.ats-resume { width: 100%; max-width: 660px; background: #fff; box-shadow: 0 6px 40px rgba(0,0,0,0.2); padding: 2.8rem 3.2rem; font-family: var(--font-body); color: #111; font-size: 0.88rem; line-height: 1.52; animation: fadeUp 0.28s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(7px); } to   { opacity: 1; transform: translateY(0); } }
+.r-name { font-family: var(--font-display); font-size: 2.1rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 0.25rem; }
+.r-title { font-size: 0.82rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.11em; margin-bottom: 0.65rem; }
+.r-contact { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; font-size: 0.78rem; color: #555; margin-bottom: 1.4rem; padding-bottom: 1.1rem; border-bottom: 2px solid #0f0f0f; }
+.r-contact span { display: inline-flex; align-items: center; gap: 0.28rem; }
+.r-section { margin-bottom: 1.3rem; }
+.r-section-title { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); border-bottom: 1px solid #e4dfd9; padding-bottom: 0.28rem; margin-bottom: 0.85rem; }
+.r-summary { font-size: 0.85rem; color: #333; line-height: 1.65; }
+.r-exp-entry { margin-bottom: 1rem; }
+.r-exp-entry:last-child { margin-bottom: 0; }
+.r-exp-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.2rem; margin-bottom: 0.12rem; }
+.r-exp-role { font-size: 0.88rem; font-weight: 700; color: #0f0f0f; }
+.r-exp-dates { font-family: var(--font-mono); font-size: 0.72rem; color: #888; white-space: nowrap; }
+.r-exp-company { font-size: 0.8rem; color: #555; font-style: italic; margin-bottom: 0.38rem; }
+.r-bullets { list-style: none; padding: 0; }
+.r-bullets li { font-size: 0.82rem; color: #333; line-height: 1.55; padding-left: 1em; position: relative; margin-bottom: 0.18rem; }
+.r-bullets li::before { content: "▪"; position: absolute; left: 0; color: var(--accent); font-size: 0.68em; top: 0.22em; }
+.r-edu-entry { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.2rem; margin-bottom: 0.65rem; }
+.r-edu-degree { font-size: 0.85rem; font-weight: 700; color: #0f0f0f; }
+.r-edu-school { font-size: 0.8rem; color: #555; }
+.r-edu-year { font-family: var(--font-mono); font-size: 0.72rem; color: #888; white-space: nowrap; text-align: right; }
+.r-skills { display: flex; flex-wrap: wrap; gap: 0.32rem; }
+.r-skill { background: #f0ede8; color: #333; font-size: 0.76rem; font-weight: 500; padding: 0.22rem 0.6rem; border-radius: 2px; border: 1px solid #e0dbd5; }
+.r-cert-entry { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.2rem; margin-bottom: 0.6rem; }
+.r-cert-name { font-size: 0.85rem; font-weight: 700; }
+.r-cert-issuer { font-size: 0.79rem; color: #555; }
+.r-cert-year { font-family: var(--font-mono); font-size: 0.72rem; color: #888; white-space: nowrap; }
+.r-empty { color: #bbb; font-size: 0.84rem; font-style: italic; text-align: center; padding: 3rem 1rem; line-height: 1.9; }
+
+@media (max-width: 900px) {
+  .ats-shell { grid-template-columns: 1fr; }
+  .ats-form-panel, .ats-preview-panel { position: static; height: auto; }
+  .ats-preview-panel { padding: 1.4rem; }
+  .ats-resume { padding: 2rem; }
+}
+@media (max-width: 520px) {
+  .ats-form-panel { padding: 1rem; }
+  .ats-form-header h1 { font-size: 1.5rem; }
+  .ats-row { grid-template-columns: 1fr; }
+  .ats-field.full { grid-column: 1; }
+  .ats-resume { padding: 1.4rem 1rem; font-size: 0.82rem; }
+  .r-name { font-size: 1.6rem; }
+  .r-exp-header { flex-direction: column; }
+}
+@media print {
+  .ats-form-panel, .ats-toolbar { display: none !important; }
+  .ats-preview-panel { padding: 0; background: #fff; height: auto; }
+  .ats-resume { box-shadow: none; max-width: 100%; padding: 1cm 1.5cm; }
+}
