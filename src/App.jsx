@@ -11,16 +11,28 @@ export default function App() {
 
   const startDemoPurchase = async () => {
     try {
+      // Try the demo server first (local dev). On production (Vercel) this may fail
+      // because the demo server isn't deployed. We'll fall back to a client-side
+      // mock checkout (static page) that posts a message back to the opener.
       const serverOrigin = `${window.location.protocol}//${window.location.hostname}:4242`;
-      const resp = await fetch(`${serverOrigin}/create-checkout-session`, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
-      const body = await resp.json();
-      if (body.checkoutUrl) {
-        // open the mock checkout in a new tab
-        window.open(`${serverOrigin}${body.checkoutUrl}`, '_blank');
-        // store the session info in-page and let the user verify without a browser prompt
-        setPendingSession({ sessionId: body.sessionId, checkoutUrl: body.checkoutUrl });
-      } else {
-        alert('Unable to create a checkout session.');
+      try {
+        const resp = await fetch(`${serverOrigin}/create-checkout-session`, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+        if (!resp.ok) throw new Error('create-checkout-session failed');
+        const body = await resp.json();
+        if (body.checkoutUrl) {
+          // open the mock checkout in a new tab (server-hosted mock)
+          window.open(`${serverOrigin}${body.checkoutUrl}`, '_blank');
+          // store the session info in-page and let the user verify without a browser prompt
+          setPendingSession({ sessionId: body.sessionId, checkoutUrl: body.checkoutUrl, local: false });
+          return;
+        }
+        throw new Error('no checkoutUrl');
+      } catch (err) {
+        // Fallback: generate a client-side session id and open static mock checkout
+        const sessionId = 'sess_' + Math.random().toString(36).slice(2, 9);
+        const checkoutUrl = `${window.location.origin}/mock-checkout?sessionId=${encodeURIComponent(sessionId)}`;
+        window.open(checkoutUrl, '_blank');
+        setPendingSession({ sessionId, checkoutUrl, local: true });
       }
     } catch (err) {
       console.error(err);
@@ -49,6 +61,27 @@ export default function App() {
     setMeta('viewport', 'width=device-width, initial-scale=1.0');
     setMeta('theme-color', '#c8522a');
   }, []);
+
+  // Listen for messages from the mock-checkout page (static client-side flow)
+  useEffect(() => {
+    const handler = (e) => {
+      // Only accept messages from same origin
+      if (e.origin !== window.location.origin) return;
+      try {
+        const d = e.data || {};
+        if (d.type === 'mock-payment' && d.sessionId && pendingSession && d.sessionId === pendingSession.sessionId) {
+          setIsPaid(true);
+          localStorage.setItem('ats_paid', 'true');
+          setPendingSession(null);
+          alert('Payment verified (mock). Download/Print unlocked.');
+        }
+      } catch (err) {
+        console.error('message handler', err);
+      }
+    };
+    window.addEventListener('message', handler);
+    return () => window.removeEventListener('message', handler);
+  }, [pendingSession]);
 
   return (
     <div className="ats-shell" role="application" aria-label="ATS Resume Generator">
