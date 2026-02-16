@@ -30,8 +30,9 @@ export default function App() {
         throw new Error('no checkoutUrl');
       } catch (err) {
         // Fallback: generate a client-side session id and open static mock checkout
-        const sessionId = 'sess_' + Math.random().toString(36).slice(2, 9);
-        const checkoutUrl = `${window.location.origin}/mock-checkout?sessionId=${encodeURIComponent(sessionId)}`;
+  const sessionId = 'sess_' + Math.random().toString(36).slice(2, 9);
+  // On static hosts (Vercel) the file is served as /mock-checkout.html
+  const checkoutUrl = `${window.location.origin}/mock-checkout.html?sessionId=${encodeURIComponent(sessionId)}`;
         window.open(checkoutUrl, '_blank');
         setPendingSession({ sessionId, checkoutUrl, local: true });
       }
